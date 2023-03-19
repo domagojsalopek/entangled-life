@@ -1,0 +1,61 @@
+﻿@model EntityList<PostViewModel>
+@{
+    string page = Model.TotalPages > 1 ? String.Format(" | (Page {0} of {1})", Model.PageIndex, Model.TotalPages) : string.Empty;
+    ViewBag.Title = string.Format("Welcome{0}", page);
+}
+
+<div class="postcontent nobottommargin clearfix">
+    
+    <div id="posts">
+
+        @foreach (var item in Model.Results)
+        {
+            Html.RenderPartial("Partials/_SinglePostInListPartial", item);
+        }
+
+        @if (Model.TotalPages > 1)
+        {
+            <ul class="pager nomargin">
+                @if (Model.HasPreviousPage)
+                {
+                    <li class="previous"><a href="@Url.Action("index", "default", new { page = Model.PageIndex - 1 })">&larr; Newer</a></li>
+                }
+                @if (Model.HasNextPage)
+                {
+                    <li class="next"><a href="@Url.Action("index", "default", new { page = Model.PageIndex + 1 })">Older &rarr;</a></li>
+                }
+            </ul>
+        }
+
+    </div>
+
+</div>
+
+@section PageTitle
+{
+    <section id="page-title" class="page-title-parallax page-title-dark" style="background-image: url('/Resources/images/header-bg.png');" data-stellar-background-ratio="0.1">
+        <div class="container clearfix">
+            <h1 data-animate="fadeInUp">@AppConfiguration.Instance.SiteName</h1>
+            <span data-animate="fadeInUp" data-delay="300">An adventure in Science, Art, Space and Truth.</span>
+        </div>
+    </section>
+}
+
+@section seo
+{
+    @if (Model.HasPreviousPage)
+    {
+        <link rel="prev" href="@Url.Action("index", "default", new { page = Model.PageIndex - 1 })" />
+    }
+    @if (Model.HasNextPage)
+    {
+        <link rel="next" href="@Url.Action("index", "default", new { page = Model.PageIndex + 1 })" />
+    }
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:site_name" content="Entangled Life" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@Url.AbsoluteAction("index", "default", new { page = Model.PageIndex })" />
+    <meta property="og:image" content="@Url.AbsoluteContent("~/resources/custom/logo-06-2018.png")" />
+    <meta property="og:description" content="An adventure in Science, Art, Space and Truth." />
+    <meta name="description" content="An adventure in Science, Art, Space and Truth." />
+}

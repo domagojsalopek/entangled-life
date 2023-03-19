@@ -1,0 +1,16 @@
+﻿@model Entangled.Life.Web.ViewModels.PostViewModel
+<div class="tagcloud clearfix bottommargin">
+
+    @foreach (var item in Model.Tags)
+    {
+        <a href="@Url.Action("PostsByTag", "default", new { tagName = item.Slug })">@item.Name</a>
+    }
+
+    @*<a href="#">general</a>
+    <a href="#">information</a>
+    <a href="#">media</a>
+    <a href="#">press</a>
+    <a href="#">gallery</a>
+    <a href="#">illustration</a>*@
+</div>
+<div class="clear"></div>

@@ -1,0 +1,63 @@
+﻿@model Entangled.Life.Web.ViewModels.SearchViewModel
+
+@{
+    string page = Model.Results.TotalPages > 1 ? String.Format(" (Page {0} of {1})", Model.Results.PageIndex, Model.Results.TotalPages) : String.Empty;
+    ViewBag.Title = string.Format("Search Results for: {0} | Entangled Life{1}", Model.SearchQuery, page);
+}
+
+<div class="postcontent nobottommargin clearfix">
+    <div id="posts">
+
+        <h2>@Model.NumberOfResults search @(Model.NumberOfResults == 1 ? "result" : "results") for '@Model.SearchQuery'</h2>
+
+        @foreach (var item in Model.Results.Entities)
+        {
+            Html.RenderPartial("Partials/_SingleSearchResultPartial", item);
+        }
+        @if (Model.Results.TotalPages > 1)
+        {
+            <ul class="pager nomargin">
+                @if (Model.Results.HasPreviousPage)
+                {
+                    <li class="previous"><a href="@Url.Action("index", "search", new { page = Model.Results.PageIndex - 1, q = Model.SearchQuery })">&larr; Older</a></li>
+                }
+                @if (Model.Results.HasNextPage)
+                {
+                    <li class="next"><a href="@Url.Action("index", "search", new { page = Model.Results.PageIndex + 1, q = Model.SearchQuery })">Newer &rarr;</a></li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+@section PageTitle
+{
+    <section id="page-title">
+    <div class="container clearfix">
+        <h1>Entangled Life</h1>
+        <ol class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Search results for: @Model.SearchQuery</li>
+        </ol>
+    </div>
+</section>
+}
+
+@section seo
+{
+    @if (Model.Results.HasPreviousPage)
+    {
+        <link rel="prev" href="@Url.Action("index", "default", new { page = Model.Results.PageIndex - 1, q = Model.SearchQuery })" />
+    }
+    @if (Model.Results.HasNextPage)
+    {
+        <link rel="next" href="@Url.Action("index", "default", new { page = Model.Results.PageIndex + 1, q = Model.SearchQuery })" />
+    }
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:site_name" content="Entangled Life" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@Url.AbsoluteAction("index", "search", new { page = Model.Results.PageIndex, q = Model.SearchQuery })" />
+    <meta property="og:image" content="@Url.AbsoluteContent("~/resources/custom/logo-06-2018.png")" />
+    <meta property="og:description" content="An adventure in Science, Art, Space and Truth." />
+    <meta name="description" content="An adventure in Science, Art, Space and Truth." />
+}

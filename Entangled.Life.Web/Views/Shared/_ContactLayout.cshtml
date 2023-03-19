@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html dir="ltr" lang="en-gb">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+    @Styles.Render("~/resources/style")
+    @Styles.Render("~/resources/css/style")
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lt IE 9]>
+        <script src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <title>@ViewBag.Title | @AppConfiguration.Instance.SiteName</title>
+    @RenderSection("seo", required: false)
+    @{ Html.RenderPartial("Partials/_HeadAdditionalPartial"); }
+</head>
+<body class="stretched">
+    <div id="wrapper" class="clearfix">
+        @{Html.RenderPartial("Partials/_HeaderPartial");}
+        @RenderSection("PageTitle", required: false)
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix">
+                    <div class="postcontent nobottommargin">
+                        @RenderBody()
+                    </div>
+                    <div class="sidebar col_last nobottommargin">
+                        @{Html.RenderPartial("Partials/_ContactSidebarPartial");}
+                    </div>
+                </div>
+            </div>
+        </section>
+        @{Html.RenderPartial("Partials/_FooterPartial");}
+    </div>
+    <div id="gotoTop" class="icon-angle-up"></div>
+    <form class="hide" id="__AjaxAntiForgeryForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+    @Scripts.Render("~/scripts/jquery")
+    <script>window.jQuery || document.write('<script src="@Url.Content("~/resources/js/jquery.js")"><\/script>')</script>
+    @Scripts.Render("~/scripts/js")
+    @RenderSection("scripts", false)
+    <script>
+        function recaptchaCallback() {
+            $('.captchaEnabledButton').removeAttr('disabled').removeClass('button-white button-light');
+            $('#recaptchaExplanation').remove();
+        };
+        (function ($) {
+            var u = 'info', fp = 'entangled', sp = '.life';
+            $('#site_mail').text(u + '@Html.Raw("@")' + fp + sp);
+            $("#tabs-profile").on("tabsactivate", function (event, ui) {
+                jQuery('.flexslider .slide').resize();
+            });
+        }(jQuery));
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
+</html>

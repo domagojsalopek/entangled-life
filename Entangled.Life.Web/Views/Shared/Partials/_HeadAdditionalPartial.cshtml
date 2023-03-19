@@ -1,0 +1,80 @@
+﻿@{
+    string enableCookiesURL = @Url.Action("enable", "cookie");
+    string disableCookiesURL = @Url.Action("disable", "cookie");
+}
+<meta property="fb:app_id" content="389357138211280" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?3">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?3">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?3">
+<link rel="manifest" href="/site.webmanifest?3">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?3" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#f0edec">
+<meta name="theme-color" content="#ffffff">
+
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+<script>
+    window.addEventListener("load", function () {
+        window.cookieconsent.initialise({
+            "palette": {
+                "popup": {
+                    "background": "#3c404d",
+                    "text": "#d6d6d6"
+                },
+                "button": {
+                    "background": "#8bed4f"
+                }
+            },
+            "elements": {
+                "dismiss": '<a aria-label="dismiss cookie message" tabindex="0" class="cc-btn cc-dismiss doPerformAcceptCookies">{{dismiss}}</a>'
+            },
+            "position": "bottom-right",
+            "type": "opt-out",
+            "content": {
+                "message": "This site uses cookies to assist with navigation and your ability to provide feedback. Cookies are also used by third parties to deliver content.",
+                "dismiss": "Allow cookies",
+                "deny": "Decline cookies",
+                "href": "@(Url.AbsoluteAction("details", "page", new { slug = "cookie-policy" }))",
+                "close": '&#x274c;',
+            },
+            "revokable": false,
+            onInitialise: function (status) {
+                var type = this.options.type;
+                var didConsent = this.hasConsented();
+                if (type == 'opt-in' && didConsent) {
+                    // enable cookies
+                    window.dmc.util.EnableCookies('@enableCookiesURL');
+                }
+                if (type == 'opt-out' && !didConsent) {
+                    // disable cookies
+                    window.dmc.util.DisableCookies('@disableCookiesURL');
+                }
+            },
+            onStatusChange: function (status, chosenBefore) {
+                var type = this.options.type;
+                var didConsent = this.hasConsented();
+                if (type == 'opt-in' && didConsent) {
+                    // enable cookies
+                    window.dmc.util.EnableCookies('@enableCookiesURL');
+                }
+                if (type == 'opt-out' && !didConsent) {
+                    // disable cookies
+                    window.dmc.util.DisableCookies('@disableCookiesURL');
+                }
+            },
+            onRevokeChoice: function () {
+                var type = this.options.type;
+                if (type == 'opt-in') {
+                    // disable cookies
+                    window.dmc.util.DisableCookies('@disableCookiesURL');
+                }
+                if (type == 'opt-out') {
+                    // enable cookies
+                    window.dmc.util.EnableCookies('@enableCookiesURL');
+                }
+            },
+        });
+        window.dmc.init.events.bindAcceptCookie();
+    });
+</script>

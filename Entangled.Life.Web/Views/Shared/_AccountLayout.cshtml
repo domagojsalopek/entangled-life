@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html dir="ltr" lang="en-gb">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
+    @Styles.Render("~/resources/style")
+    @Styles.Render("~/resources/css/style")
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lt IE 9]>
+        <script src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <title>@ViewBag.Title | @AppConfiguration.Instance.SiteName</title>
+    @RenderSection("seo", required: false)
+    @{ Html.RenderPartial("Partials/_HeadAdditionalPartial"); }
+</head>
+<body class="stretched">
+    <div id="wrapper" class="clearfix">
+        @{Html.RenderPartial("Partials/_HeaderPartial");}
+        @RenderSection("PageTitle", required: false)
+        <section id="content">
+            <div class="content-wrap">
+                <div class="container clearfix">
+                    <div class="row clearfix">
+                        <div class="col-sm-9">
+                            @RenderBody()
+                        </div>
+                        <div class="line visible-xs-block"></div>
+                        <div class="col-sm-3 clearfix">
+                            @{Html.RenderPartial("Partials/_AccountPageSubmenuPartial");}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        @{Html.RenderPartial("Partials/_FooterPartial");}
+    </div>
+    <div id="gotoTop" class="icon-angle-up"></div>
+    <form class="hide" id="__AjaxAntiForgeryForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+    @Scripts.Render("~/scripts/jquery")
+    <script>window.jQuery || document.write('<script src="@Url.Content("~/resources/js/jquery.js")"><\/script>')</script>
+    @Scripts.Render("~/scripts/js")
+    @RenderSection("scripts", false)
+    @if (Html.IsCookieConsentGiven())
+    {
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    }
+    <script>
+        jQuery("#tabs-profile").on("tabsactivate", function (event, ui) {
+            jQuery('.flexslider .slide').resize();
+        });
+    </script>
+</body>
+</html>

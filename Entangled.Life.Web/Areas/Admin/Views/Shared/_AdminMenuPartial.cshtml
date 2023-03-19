@@ -1,0 +1,32 @@
+﻿<ul class="nav nav-list">
+
+    <li class="nav-header">Images</li>
+    <li class="category-index">@Html.ActionLink("Browse Images", "index", "image")</li>
+    <li class="category-create">@Html.ActionLink("New Image", "create", "image")</li>
+
+    <li class="nav-header">Categories</li>
+    <li class="category-index">@Html.ActionLink("Browse Categories", "index", "category")</li>
+    <li class="category-create">@Html.ActionLink("New Category", "create", "category")</li>
+
+    <li class="nav-header">Posts</li>
+    <li class="category-index">@Html.ActionLink("Browse Posts", "index", "post")</li>
+    <li class="category-create">@Html.ActionLink("New Post", "create", "post")</li>
+
+    <li class="nav-header">Pages</li>
+    <li class="category-index">@Html.ActionLink("Browse Pages", "index", "page")</li>
+    <li class="category-create">@Html.ActionLink("New Page", "create", "page")</li>
+
+    <li class="nav-header">Tags</li>
+    <li class="category-index">@Html.ActionLink("Browse Tags", "index", "tag")</li>
+    <li class="category-create">@Html.ActionLink("New Tag", "create", "tag")</li>
+
+    <li class="nav-header">Contact Queries</li>
+    <li class="contact-index">@Html.ActionLink("Browse Contact Queries", "index", "contactquery")</li>
+</ul>
+
+<script>
+    var adminMenuNavigation = {
+        c: '@ViewBag.Controller',
+        a: '@ViewBag.ActionName'
+    };
+</script>

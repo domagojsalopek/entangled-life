@@ -1,0 +1,52 @@
+﻿@model Entangled.Life.Web.ViewModels.AccountDetailsViewModel
+
+@{
+    ViewBag.Title = "Account";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+
+<img src="~/resources/images/icons/avatar.jpg" class="alignleft img-circle img-thumbnail notopmargin nobottommargin" alt="" style="max-width: 84px;">
+
+<div class="heading-block noborder">
+    <h3>@Model.DisplayName</h3>
+    <span>Member since @Model.MemberSince.DateTime.ToLongDateString()</span>
+</div>
+
+<div class="clear"></div>
+
+<div class="row clearfix">
+    <div class="col-md-12">
+        <div class="tabs tabs-alt clearfix" id="tabs-profile">
+
+            <ul class="tab-nav clearfix">
+                <li><a href="#tab-posts"><i class="icon-star"></i> Favourites</a></li>
+                <li><a href="#tab-likesdislikes"><i class="icon-thumbs-up"></i> Likes and Dislikes</a></li>
+            </ul>
+
+            <div class="tab-container">
+                <div class="tab-content clearfix" id="tab-posts">
+                    @{Html.RenderPartial("Partials/_AllFavouritePosts", Model);}
+                </div>
+                <div class="tab-content clearfix" id="tab-likesdislikes">
+                    @{Html.RenderPartial("Partials/_AllLikesAndDislikes", Model);}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section PageTitle
+{
+    <section id="page-title">
+
+        <div class="container clearfix">
+            <h1>Account</h1>
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Account</li>                
+            </ol>
+        </div>
+
+    </section>
+}

@@ -1,0 +1,68 @@
+﻿@model TagViewModel
+@{
+    string page = Model.Posts.TotalPages > 1 ? String.Format(" | (Page {0} of {1})", Model.Posts.PageIndex, Model.Posts.TotalPages) : string.Empty;
+    ViewBag.Title = string.Format("Posts tagged '{0}'{1}", Model.Title, page);
+}
+
+<div class="postcontent nobottommargin clearfix">
+
+    <div id="posts">
+
+        @foreach (var item in Model.Posts.Results)
+        {
+            Html.RenderPartial("Partials/_SinglePostInListPartial", item);
+        }
+
+        @if (Model.Posts.TotalPages > 1)
+        {
+            <ul class="pager nomargin">
+                @if (Model.Posts.HasPreviousPage)
+                {
+                    <li class="previous"><a href="@Url.Action("PostsByTag", "default", new { tagName = Model.Slug, page = Model.Posts.PageIndex - 1 })">&larr; Newer</a></li>
+                }
+                @if (Model.Posts.HasNextPage)
+                {
+                    <li class="next"><a href="@Url.Action("PostsByTag", "default", new { tagName = Model.Slug, page = Model.Posts.PageIndex + 1 })">Older &rarr;</a></li>
+                }
+            </ul>
+        }
+
+    </div>
+
+</div>
+
+@section PageTitle
+{
+    <section id="page-title">
+        <div class="container clearfix">
+            <h1>@Model.Title</h1>
+            <ol class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">@Model.Title</li>
+            </ol>
+        </div>
+    </section>
+}
+
+@section seo
+{   
+    @{
+        string ogImageUrl = "~/resources/custom/logo-06-2018.png";
+        string description = string.Format("Posts tagged {0} | Entangled Life - An Adventure in Art, Science, Space and Truth.", Model.Title);
+    }
+    @if (Model.Posts.HasPreviousPage)
+    {
+        <link rel="prev" href="@Url.Action("PostsByTag", "default", new { tagName = Model.Slug, page = Model.Posts.PageIndex - 1 })" />
+    }
+    @if (Model.Posts.HasNextPage)
+    {
+        <link rel="next" href="@Url.Action("PostsByTag", "default", new { tagName = Model.Slug, page = Model.Posts.PageIndex + 1 })" />
+    }
+    <meta property="og:title" content="@ViewBag.Title" />
+    <meta property="og:site_name" content="Entangled Life" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="@Url.AbsoluteAction("PostsByTag", "default", new { tagName = Model.Slug, page = Model.Posts.PageIndex })" />
+    <meta property="og:image" content="@Url.AbsoluteContent(ogImageUrl)" />
+    <meta property="og:description" content="@description" />
+    <meta name="description" content="@description" />
+}

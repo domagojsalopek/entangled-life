@@ -1,0 +1,30 @@
+﻿<footer id="footer" class="dark">
+    <div id="copyrights">
+        <div class="container clearfix">
+            <div class="col_half">
+                <img src="~/Resources/images/el-footer-logo.png" alt="@AppConfiguration.Instance.SiteName" class="footer-logo">
+                Copyrights &copy; @DateTime.Now.Year All Rights Reserved by @AppConfiguration.Instance.SiteName
+            </div>            
+            <div class="col_half col_last">
+                <div class="copyrights-menu copyright-links fright clearfix">
+                    <a href="#">Home</a>/<a href="@Url.Action("details", "page", new { slug = "about" })">About</a>/<a href="@Url.Action("index", "contact")">Contact</a>/<a href="@Url.Action("details", "page", new { slug = "terms-of-use" })">Terms Of Use</a>/<a href="@Url.Action("details", "page", new { slug = "privacy-policy" })">Privacy Policy</a>
+                </div>
+                <div class="clearfix"></div>
+                <div class="fright clearfix">
+                    <a href="https://www.facebook.com/entangled.life/" class="social-icon si-small si-borderless nobottommargin si-facebook">
+                        <i class="icon-facebook"></i>
+                        <i class="icon-facebook"></i>
+                    </a>
+                    <a href="https://twitter.com/entangldlife" class="social-icon si-small si-borderless nobottommargin si-twitter">
+                        <i class="icon-twitter"></i>
+                        <i class="icon-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/entangledlife/" class="social-icon si-small si-borderless nobottommargin si-instagram">
+                        <i class="icon-instagram"></i>
+                        <i class="icon-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

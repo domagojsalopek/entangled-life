@@ -1,0 +1,111 @@
+﻿@model Entangled.Life.Web.ViewModels.PostViewModel
+@{
+    ViewBag.Title = Model.Title;
+    string fullUrl = Url.AbsoluteAction("details", "default", new { slug = Model.Slug });
+    string openGraphDescription = Model.Description.StripTags().ShortenToClosestMeaningfulPart(300);
+    string socialTitle = Model.Title.ShortenToClosestMeaningfulPart(100);
+    string openGraphImageLink = Model.DetailImage != null && !string.IsNullOrWhiteSpace(Model.DetailImage.LargeImage)
+        ? Url.AbsoluteContent(Model.DetailImage.LargeImage)
+        : Url.AbsoluteContent("~/resources/custom/logo-06-2018.png");
+}
+<div class="postcontent nobottommargin clearfix">
+    <div class="single-post nobottommargin">
+        <div class="entry clearfix">
+
+            <div class="entry-title">
+                <h2>@Model.Title</h2>
+            </div>
+
+            @{ Html.RenderPartial("Partials/_PostMetaPartial"); }
+
+            @if (Model.DetailImage != null)
+            {
+                <div class="entry-image">
+                    <a href="@Url.Content(Model.DetailImage.LargeImage)" data-lightbox="image"><img class="image_fade" src="@Url.Content(Model.DetailImage.SmallImage)" alt="@(string.IsNullOrEmpty(Model.DetailImage.AltText) ? Model.Title : Model.DetailImage.AltText)"></a>
+                </div>
+            }
+
+            <div class="entry-content notopmargin">
+
+                @(new HtmlString(Model.Content))
+
+                @{
+                    Html.RenderPartial("Partials/_PostDetailsTagCloudPartial", Model);
+                    Html.RenderPartial("Partials/_SharePostPartial", Model);
+                }
+
+            </div>
+
+        </div>
+
+        @*
+            <div class="post-navigation clearfix">
+                <div class="col_half nobottommargin">
+                    <a href="#">&lArr; This is a Standard post with a Slider Gallery</a>
+                </div>
+                <div class="col_half col_last tright nobottommargin">
+                    <a href="#">This is an Embedded Audio Post &rArr;</a>
+                </div>
+            </div>
+
+            <div class="line"></div>
+        *@
+
+        @*
+            TODO
+            here would related go
+            comments
+            comment form
+        *@
+
+    </div>
+</div>
+
+@section PageTitle
+{
+    <div class="clearfix"></div>
+    @*<section id="page-title">
+            <div class="container clearfix">
+                <h1>@Model.Title</h1>
+                <ol class="breadcrumb">
+                    <li><a href="/">Home</a></li>
+                    <li class="active">@Model.Title</li>
+                </ol>
+            </div>
+        </section>*@
+}
+
+@section seo
+{
+    <link rel="canonical" href="@fullUrl" />
+    <meta name="description" content="@Html.Raw(openGraphDescription)" />
+    <meta property="og:title" content="@socialTitle" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="@fullUrl" />
+    <meta property="og:image" content="@openGraphImageLink" />
+    <meta property="og:site_name" content="Entangled Life" />
+    <meta property="og:description" content="@Html.Raw(openGraphDescription)" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Html.Raw("@entangldlife")">
+    <meta name="twitter:title" content="@socialTitle">
+    <meta name="twitter:description" content="@Html.Raw(openGraphDescription)">
+    <meta name="twitter:creator" content="@Html.Raw("@entangldlife")">
+    <meta name="twitter:image" content="@openGraphImageLink">
+    <meta name="twitter:domain" content="entangled.life">
+}
+@section scripts{
+<script>
+    (function ($) {
+        $('.shareOnFacebook').click(function (e) {
+            e.preventDefault();
+            var url = $(this).data('share-url');
+            FB.ui({
+                method: 'share',
+                mobile_iframe: true,
+                href: url,
+            }, function (response) { });
+        });
+    })(jQuery);
+</script>
+}
